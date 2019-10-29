@@ -7,10 +7,11 @@
 <body>
 <div class="">
 <h3>Camagru<h3>
-<form action="signup.php" method="post">
- <input type="text" name="email" value="" placeholder="email"><br>
-<input type="text" name="username" value="" placedholder=""><br>
-<input type="text" name="" value="" placedholder=""><br>
+<form action="connection.php" method="post">
+ <input type="email" name="email" value="" placeholder="Email"><br>
+<input type="text" name="username" value="" placeholder="Username"><br>
+<input type="password" name="passwd" value="" placeholder="Password"><br>
+<input type="password" name="confirmpasswd" value="" placeholder="Confirm Password"><br>
 <input type="submit" name="login-btn" value="Signup"><br>
    <label>
     <input type="checkbox" checked="checked" name="remember" style="margin-bottom:15px"> Remember me
