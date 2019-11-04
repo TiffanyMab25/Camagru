@@ -1,6 +1,6 @@
 <?php
     require "config/database.php";
-    $DB_INFO = "mysql:host=".DB_HOST.";dbname=".DB_NAME;
+    $DB_INFO = "mysql:host=".DB_HOST;
     try{
         $handle = new PDO($DB_INFO,DB_USER,DB_PASS);
         $handle->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); // it alows you to use exeption
