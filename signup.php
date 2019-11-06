@@ -5,10 +5,7 @@
 // error_reporting(E_ALL);
 
 
-$email = $_POST["email"];
-$username = $_POST["username"];
-$password = $_POST["passwd"];
-$Confirm_password = $_POST["confirmpasswd"];
+
 $error = array();
 
 function user_input($data){
@@ -16,6 +13,10 @@ function user_input($data){
 }
 
 if(isset($_POST["login_btn"])){
+   $email = $_POST["email"];
+   $username = $_POST["username"];
+   $password = $_POST["passwd"];
+   $Confirm_password = $_POST["confirmpasswd"];
    if(empty($email)){
       $error["emailerror"] = "please enter  email adress";
    }else{
@@ -34,7 +35,7 @@ if(isset($_POST["login_btn"])){
    if($password !== $Confirm_password){
       $error["nomatch"] = "the passwords don't match";
    }
-   if(count($error) == 0){ // checks if they are any items in an array and returns an int value
+   if(count($error) === 0){ // checks if they are any items in an array and returns an int value
       require 'database_insert.php';
       header("location: index.php");
    }

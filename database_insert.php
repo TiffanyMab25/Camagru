@@ -9,7 +9,7 @@ try{
     
     $connect = new PDO($server, DB_USER, DB_PASS);
     $connect->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); // it alows you to use exeption 
-    $stmt = $connect->prepare("INSERT INTO users (Email, Username, Password, Token, Verified) VALUES (:Email, :Username, :Password, :Token, :Verified)");// We put the semicolon so we dont manually insert data
+    $stmt = $connect->prepare("INSERT INTO new_users (Email, Username, Password, Token, Verified) VALUES (:Email, :Username, :Password, :Token, :Verified)");// We put the semicolon so we dont manually insert data
 
    $stmt->bindParam(':Email', $_POST["email"]);
    $stmt->bindParam(':Username', $_POST["username"]);
