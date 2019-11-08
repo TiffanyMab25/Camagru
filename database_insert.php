@@ -16,12 +16,19 @@ try{
    $stmt->bindParam(':Password', $hiddenpassword);
    $stmt->bindParam(':Token', $token);
    $stmt->bindParam(':Verified', $verify);
-   $stmt->execute();
+   //$stmt->execute();
    echo "New user created successfully";
+   if ($stmt->execute()){  //inserts the data into the database 
+    $user_id = $connect->lastInsertId();
+    $_SESSION['id'] = $user_id;
+    $_SESSION['username'] = $userdata;
+    $_SESSION['email']= 
+   }
+   mail($email, "Verify your email adress", "http://localhost:8080/Camagru/index.php"); //sends verification email to the user 
 }
 catch(PDOException $e)
 {
-    echo "Error: " . $e->getMessage();
+    echo "Failed to insert data into the database " . $e->getMessage();
 
 }
 ?>
