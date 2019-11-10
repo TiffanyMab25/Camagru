@@ -1,12 +1,17 @@
 <?php
     require "config/database.php";
+
+   // $server = "mysql:host=" . DB_HOST . ";dbname=" . DB_NAME;
+   // $token = bin2hex(random_bytes(50));
+   // $verify = 0; // by default if someone hasnt verfied ther email they cant use ther account
+  //  $hiddenpassword = password_hash($userpass, PASSWORD_DEFAULT);
+function inserttotable($connect, $userdata, $emaildata, $userpass){
+try{
     $server = "mysql:host=" . DB_HOST . ";dbname=" . DB_NAME;
     $token = bin2hex(random_bytes(50));
     $verify = 0; // by default if someone hasnt verfied ther email they cant use ther account
-    $hiddenpassword = password_hash($_POST["passwd"], PASSWORD_DEFAULT);
+    $hiddenpassword = password_hash($userpass, PASSWORD_DEFAULT);
 
-try{
-    
     $connect = new PDO($server, DB_USER, DB_PASS);
     $connect->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); // it alows you to use exeption 
     $stmt = $connect->prepare("INSERT INTO new_users (Email, Username, Password, Token, Verified) VALUES (:Email, :Username, :Password, :Token, :Verified)");// We put the semicolon so we dont manually insert data
@@ -22,13 +27,22 @@ try{
     $user_id = $connect->lastInsertId();
     $_SESSION['id'] = $user_id;
     $_SESSION['username'] = $userdata;
-    $_SESSION['email']= 
+    $_SESSION['email']= $emaildata;
+    $_SESSION['verified'] = $verified;
+   
+   mail($email, "Verify your email adress", "http://localhost:8080/Camagru/index.php?token=$token"); //sends verification email to the user 
+
+    $_SESSION['message'] = "You are now logged in";
+    header('Location:index.php');
+    exit();
    }
-   mail($email, "Verify your email adress", "http://localhost:8080/Camagru/index.php"); //sends verification email to the user 
-}
-catch(PDOException $e)
+   if($stmt->rowCount() == 1){
+       echo "Registred Successful";
+   }
+}catch(PDOException $e)
 {
     echo "Failed to insert data into the database " . $e->getMessage();
 
+}
 }
 ?>

@@ -42,6 +42,7 @@ if(isset($_POST["login-btn"])) {
  <input type="text" name="username-email" value="" placeholder="username or email"><br>
  <input type="text" name="passwd" value="" placeholder="password"><br>
 <input type="submit" name="login-btn" value="Login"><br>
+<a href="forgot.php">Forgot Password?</a>
  <p>Don't have an account? <a href="signup.php">Sign up</a></p>
 </form>
 </div>

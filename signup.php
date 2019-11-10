@@ -17,7 +17,7 @@ if(isset($_POST["login_btn"])){
    $username = $_POST["username"];
    $password = $_POST["passwd"];
    $Confirm_password = $_POST["confirmpasswd"];
-   require 'email_validatio.php';   
+   require 'email_validation.php';   
    if(empty($email)){
       $error["emailerror"] = "please enter  email adress";
    }else{
@@ -51,7 +51,7 @@ if(isset($_POST["login_btn"])){
    </head>
    <body>
       <div class="">
-         <h3>Camagru<h3>
+         <h3>Signup<h3>
          <form action="signup.php" method="post">
          <?php
          echo "<ul>"; // unordered list
