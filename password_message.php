@@ -1,4 +1,4 @@
-<?php require_once 'control.php';
+<?php
 ?>
 
 <!DOCTYPE html>
@@ -6,7 +6,7 @@
 <meta lang="en" dir="ltr">
 <head>
 <meta charset="utf-8">
-<title>Password Message</titile>
+<title>Password Message</title>
 </head>
 <body>
 <div class="recovery_mess">

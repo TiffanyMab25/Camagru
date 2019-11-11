@@ -13,15 +13,15 @@ if(isset($_POST["login-btn"])) {
     $stmt->execute();
     $row=$stmt->fetch(PDO::FETCH_ASSOC);
     if($stmt->rowCount() > 0){
-    if(password_verify($password1, $row['password'])){
-        session_regenerate_id();
-        // $_SESSION["authorized"] = true;
-        $_SESSION["username-email"] = $row['email'];
-        $_SESSION["name"] = $row['name'];
-        session_write_close();
-        header('location:index.php');
-        
-    }
+        if(password_verify($password1, $row['password'])){
+            session_regenerate_id();
+            // $_SESSION["authorized"] = true;
+            $_SESSION["username-email"] = $row['username-email'];
+            $_SESSION["password"] = $row['passwd'];
+            session_write_close();
+            header('location:index.php');
+            
+        }
 
     }
 }
@@ -40,9 +40,9 @@ if(isset($_POST["login-btn"])) {
 <h3>Camagru<h3>
 <form action="login.php" method="post">
  <input type="text" name="username-email" value="" placeholder="username or email"><br>
- <input type="text" name="passwd" value="" placeholder="password"><br>
+ <input type="password" name="passwd" maxlength="15" value="" placeholder="password"><br>
 <input type="submit" name="login-btn" value="Login"><br>
-<a href="forgot.php">Forgot Password?</a>
+<a href="forgot_password.php">Forgot Password?</a>
  <p>Don't have an account? <a href="signup.php">Sign up</a></p>
 </form>
 </div>

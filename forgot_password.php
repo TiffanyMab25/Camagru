@@ -1,20 +1,23 @@
 <?php
 session_start();
 include 'database_insert.php';
+require_once 'connection.php';
 $error = array();
 $username = "";
 $userEmail = "";
 $email = "";
 
 function sendPasswordResetLink($userMail, $token)
-  {
-    mail($userMail, "Reset your Password", "Reset Password: http://localhost:8080/Camagru/new/index.php?password-token=$token");
-  }
-  if (isset($_POST['submit'])) {
+{
+  mail($userMail, "Reset your Password", "Reset Password: http://localhost:8080/Camagru/index.php?password-token=$token");
+}
+
+  /*if (isset($_POST['submit'])) {
     $username = $_POST['username'];
     $userEmail = $_POST['user-email'];
     $password = $_POST['passwd'];
     $confPass = $_POST['confPasswd'];
+
     if (empty($username)) {
       $error['UserNameError'] = "Please enter a username";
     }else {
@@ -37,8 +40,8 @@ function sendPasswordResetLink($userMail, $token)
       $error['ConfPasswordError'] = "Password does no match";
     }
    
-      insert2table($connect, $username, $userEmail, $password);
-    }
+    insert2table($connect, $username, $userEmail, $password);
+  }*/
 
 
 if(isset($_POST['recover-btn'])){
@@ -52,9 +55,9 @@ if(empty($email)){
 
 if(count($error) == 0){
    $sql = "SELECT * FROM new_users WHERE email = '$email' LIMIT 1";
-   $result = $connect->prepare($sql);
-   $result->execute();
-   $user = $result->fetch(PDO::FETCH_ASSOC);
+   $stmt = $connect->prepare($sql);
+   $stmt->execute();
+   $user = $stmt->fetch(PDO::FETCH_ASSOC);
    $token = $user['token'];
    sendPasswordResetLink($email, $token);
    header('location: password_message.php');
@@ -95,7 +98,7 @@ function resetPassword($token)
     $result->execute();
     $user = $result->fetch(PDO::FETCH_ASSOC);
     $_SESSION['email'] = $user['email'];
-    header('location: forgot_password.php');
+    header('location: password_message.php');
     exit();
 }
 ?>
@@ -118,11 +121,10 @@ function resetPassword($token)
   }
   ?>
     <div class="form-container">
-      <form class="sign" action="reset_password.php" method="POST">
+      <form class="sign" action="forgot_password.php" method="POST">
         <h3>Reset Password</h3>
-        <input type="password" name="passwd" value="" placeholder="Password"><br>
-        <input type="password" name="con-passwd" value="" placeholder="Confirm Password"><br>
-        <input type="submit" name="resetPassword-btn" value="Reset Password"><br>
+        <input type="email" name="recover-email" value="" placeholder="email"><br>
+        <input type="submit" name="recover-btn" value="Recover my Password"><br>
         <p>Don't have an account? <a href="signup.php">Sign up</a></p>
       </form>
     </div>

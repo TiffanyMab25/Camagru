@@ -36,8 +36,9 @@ if(isset($_POST["login_btn"])){
    if($password !== $Confirm_password){
       $error["nomatch"] = "the passwords don't match";
    }
-   if(count($error) === 0){ // checks if they are any items in an array and returns an int value
+   if(count($error) == 0){ // checks if they are any items in an array and returns an int value
       require 'database_insert.php';
+      inserttotable($connect, $_POST['username'], $_POST['email'], $_POST['passwd']);
       header("location: index.php");
    }
 
@@ -62,10 +63,11 @@ if(isset($_POST["login_btn"])){
          }
          echo "</ul>";
          ?>
+         <!-- pattern = "[A-Za-z0-9._%+-]{3,}@[a-zA-Z]{3,}([.]{1}[a-zA-Z]{2,}|[.]{1}[a-zA-Z]{2,}[.]{1}[a-zA-Z]{2,})" -->
          <input type="email" name="email" value="" placeholder="Email"><br>
          <input type="text" name="username" value="" placeholder="Username"><br>
-         <input type="password" name="passwd" value="" placeholder="Password"><br>
-         <input type="password" name="confirmpasswd" value="" placeholder="Confirm Password"><br>
+         <input type="password" name="passwd" maxlength="15" value="" placeholder="Password"><br>
+         <input type="password" name="confirmpasswd" maxlength="15" value="" placeholder="Confirm Password"><br>
          <input type="submit" name="login_btn" value="Signup"><br>
             <label>
             <input type="checkbox" checked="checked" name="remember" style="margin-bottom:15px"> Remember me
@@ -75,3 +77,4 @@ if(isset($_POST["login_btn"])){
       </div>
    </body>
 </html>
+
