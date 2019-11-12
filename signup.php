@@ -6,43 +6,7 @@
 
 
 
-$error = array();
-
-function user_input($data){
-   return($data);
-}
-
-if(isset($_POST["login_btn"])){
-   $email = $_POST["email"];
-   $username = $_POST["username"];
-   $password = $_POST["passwd"];
-   $Confirm_password = $_POST["confirmpasswd"];
-   require 'email_validation.php';   
-   if(empty($email)){
-      $error["emailerror"] = "please enter  email adress";
-   }else{
-      $email = user_input($email);
-   }
-   if(empty($username)){
-      $error["usernameerror"] = "please enter username";
-   }else{
-      $username = user_input($username);
-   }
-   if(empty($password)){
-      $error["pwderror"] = "please enter password";
-   }else{
-      $password = user_input($password);
-   }
-   if($password !== $Confirm_password){
-      $error["nomatch"] = "the passwords don't match";
-   }
-   if(count($error) == 0){ // checks if they are any items in an array and returns an int value
-      require 'database_insert.php';
-      inserttotable($connect, $_POST['username'], $_POST['email'], $_POST['passwd']);
-      header("location: index.php");
-   }
-
-}
+require_once 'checker.php'
 ?>
 <!DOCTYPE html>
 <html lang="en" dir="ltr">

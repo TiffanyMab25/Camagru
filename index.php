@@ -14,6 +14,6 @@
     <title>Document</title>
 </head>
 <body>
-    Hi <?php echo $_SESSION['username']?>
+   hi  <?php //echo $_SESSION['username']?>
 </body>
 </html>

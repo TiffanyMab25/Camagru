@@ -1,0 +1,158 @@
+<?php
+session_start();
+include 'database_insert.php';
+
+$error = array();
+$username = "";
+$useremail = "";
+
+function user_input($data){
+   return($data);
+}
+
+function sendPasswordResetLink($userMail, $token)
+{
+  mail($userMail, "Reset your Password", "Reset Password: http://localhost:8080/Camagru/index.php?password-token=$token");
+}
+//signup.php
+if(isset($_POST["login_btn"])){
+   $email = $_POST["email"];
+   $username = $_POST["username"];
+   $password = $_POST["passwd"];
+   $Confirm_password = $_POST["confirmpasswd"];
+
+     require 'email_validation.php';   
+   if(empty($email)){
+      $error["emailerror"] = "please enter  email adress";
+   }else{
+      $email = user_input($email);
+   }
+   if(empty($username)){
+      $error["usernameerror"] = "please enter username";
+   }else{
+      $username = user_input($username);
+   }
+   if(empty($password)){
+      $error["pwderror"] = "please enter password";
+   }else{
+      $password = user_input($password);
+   }
+   if($password !== $Confirm_password){
+      $error["nomatch"] = "the passwords don't match";
+   }
+   if(count($error) == 0){ // checks if they are any items in an array and returns an int value
+      // require 'database_insert.php';
+      inserttotable($connect, $_POST['username'], $_POST['email'], $_POST['passwd']);
+     // header("location: index.php");
+   }
+
+}
+
+//login.php
+
+$email1 = "";
+$password1 = "";
+if(isset($_POST["login-btn"])) {
+    $email1 = $_POST['username-email'];
+    $password1 = $_POST['passwd'];
+    if (empty($username_email)) {
+        $error['UserNameError'] = "Please enter a username";
+      }
+      if (empty($passlog)) {
+        $error['PasswordError'] = "Please enter a password";
+      }
+      if (count($error) === 0) {
+    $stmt = $handle->prepare('SELECT * FROM new_users WHERE email=:email');
+    $stmt->bindParam(':email', $email1);
+    $stmt->execute();
+    $row=$stmt->fetch(PDO::FETCH_ASSOC);
+    if($stmt->rowCount() > 0){
+        if(password_verify($password1, $row['password'])){
+            session_regenerate_id();
+            // $_SESSION["authorized"] = true;
+            $_SESSION["username-email"] = $row['username-email'];
+            $_SESSION["password"] = $row['passwd'];
+            session_write_close();
+            header('location:index.php');
+        }else{
+            $error['login_fail'] = "Wrong info";
+        }
+
+    }
+}
+}
+
+//logout 
+if (isset($_GET['logout'])) {
+    session_destroy();
+    unset($_SESSION['id']);
+    unset($_SESSION['username']);
+    unset($_SESSION['email']);
+    unset($_SESSION['verified']);
+    header('location: login.php');
+    exit();
+  }
+
+  //
+
+  //forgot_password.php
+  $email = "";
+  if(isset($_POST['recover-btn'])){
+    $email = $_POST['recover-email'];
+ if(!filter_var($email, FILTER_VALIDATE_EMAIL)){
+    $error['EmailError'] =  "Email address is invalid";
+ }
+ if(empty($email)){
+    $error['EmailError'] = "Please enter emaila address";
+ }
+ 
+ if(count($error) == 0){
+    $sql = "SELECT * FROM new_users WHERE email = '$email' LIMIT 1";
+    $stmt = $connect->prepare($sql);
+    $stmt->execute();
+    $user = $stmt->fetch(PDO::FETCH_ASSOC);
+    $token = $user['token'];
+    sendPasswordResetLink($email, $token);
+    header('location: password_message.php');
+    exit();
+    }
+ }
+ 
+ if(isset($_POST['resetPassword-btn'])){
+    $password = $_POST['passwd'];
+    $passwordConf = $_POST['con-passwd'];
+ 
+ if(empty($password) || empty($passwordConf)){
+    $error['PasswordError'] = "Please enter a password";
+ }
+ if($passwordConf != $password){
+    $error['ConfPasswordError'] = "Password does not match";
+ }
+ 
+ $password = password_hash($password, PASSWORD_DEFAULT);
+ $email = $_SESSION['email'];
+ 
+ if(count($error) == 0){
+    $update_query = "UPDATE new_user SET password='$password' WHERE email='$email'";
+    $result = $connect->prepare($update_query);
+    $result->execute();
+    if($result){
+        header('location:login.php');
+        exit();
+        }
+    }
+ }
+
+ function resetPassword($token)
+{
+    global $connect;
+    $sql = "SELECT * FROM new_users WHERE token='$token' LIMIT 1";
+    $result = $connect->prepare($sql);
+    $result->execute();
+    $user = $result->fetch(PDO::FETCH_ASSOC);
+    $_SESSION['email'] = $user['email'];
+    header('location: forgot_password.php');
+    exit();
+}
+
+?>

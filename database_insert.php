@@ -23,18 +23,17 @@
         $stmt->bindParam(':Token', $token);
         $stmt->bindParam(':Verified', $verify);
         //$stmt->execute();
-        echo "New user created successfully";
+        //echo "New user created successfully";
         if ($stmt->execute()){  //inserts the data into the database 
             $user_id = $connect->lastInsertId();
             $_SESSION['id'] = $user_id;
             $_SESSION['username'] = $userdata;
             $_SESSION['email']= $emaildata;
-            $_SESSION['verified'] = $verified;
+            $_SESSION['verified'] = $verify;
         
-        mail($email, "Verify your email adress", "http://localhost:8080/Camagru/index.php?token=$token"); //sends verification email to the user 
-
+           mail($_SESSION['email'], "Verify your email adress", "http://localhost:8080/Camagru/index.php?token=$token"); //sends verification email to the user 
             $_SESSION['message'] = "You are now logged in";
-            header('Location:index.php');
+            //header('Location:index.php');
             exit();
         }
         if($stmt->rowCount() == 1){
