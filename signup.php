@@ -32,7 +32,7 @@ require_once 'checker.php'
          <input type="text" name="username" value="" placeholder="Username"><br>
          <input type="password" name="passwd" maxlength="15" value="" placeholder="Password"><br>
          <input type="password" name="confirmpasswd" maxlength="15" value="" placeholder="Confirm Password"><br>
-         <input type="submit" name="login_btn" value="Signup"><br>
+         <input type="submit" name="signup_btn" value="Signup"><br>
             <label>
             <input type="checkbox" checked="checked" name="remember" style="margin-bottom:15px"> Remember me
             </label>

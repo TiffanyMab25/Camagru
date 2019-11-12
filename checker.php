@@ -1,6 +1,7 @@
 <?php
 session_start();
 include 'database_insert.php';
+require_once 'connection.php';
 
 $error = array();
 $username = "";
@@ -12,10 +13,10 @@ function user_input($data){
 
 function sendPasswordResetLink($userMail, $token)
 {
-  mail($userMail, "Reset your Password", "Reset Password: http://localhost:8080/Camagru/index.php?password-token=$token");
+  mail($userMail, "Reset your Password", "Reset Password: http://localhost:8080/Camagru/reset_password.php?password-token=$token");
 }
 //signup.php
-if(isset($_POST["login_btn"])){
+if(isset($_POST["signup_btn"])){
    $email = $_POST["email"];
    $username = $_POST["username"];
    $password = $_POST["passwd"];
@@ -41,9 +42,9 @@ if(isset($_POST["login_btn"])){
       $error["nomatch"] = "the passwords don't match";
    }
    if(count($error) == 0){ // checks if they are any items in an array and returns an int value
-      // require 'database_insert.php';
-      inserttotable($connect, $_POST['username'], $_POST['email'], $_POST['passwd']);
-     // header("location: index.php");
+        //require 'database_insert.php';
+        inserttotable($connect, $_POST['username'], $_POST['email'], $_POST['passwd']);
+        header("location: index.php");
    }
 
 }
@@ -55,31 +56,34 @@ $password1 = "";
 if(isset($_POST["login-btn"])) {
     $email1 = $_POST['username-email'];
     $password1 = $_POST['passwd'];
-    if (empty($username_email)) {
-        $error['UserNameError'] = "Please enter a username";
+    if (empty($email1)) {
+        $error['UserNameError'] = "Please enter a username ";
       }
-      if (empty($passlog)) {
+      if (empty($password1)) {
         $error['PasswordError'] = "Please enter a password";
       }
       if (count($error) === 0) {
-    $stmt = $handle->prepare('SELECT * FROM new_users WHERE email=:email');
-    $stmt->bindParam(':email', $email1);
-    $stmt->execute();
-    $row=$stmt->fetch(PDO::FETCH_ASSOC);
-    if($stmt->rowCount() > 0){
-        if(password_verify($password1, $row['password'])){
-            session_regenerate_id();
-            // $_SESSION["authorized"] = true;
-            $_SESSION["username-email"] = $row['username-email'];
-            $_SESSION["password"] = $row['passwd'];
-            session_write_close();
-            header('location:index.php');
-        }else{
-            $error['login_fail'] = "Wrong info";
-        }
-
+        $stmt = $connect->prepare('SELECT * FROM new_users WHERE email=:email');
+        $stmt->bindParam(':email', $email1);
+        $stmt->execute();
+        $row=$stmt->fetch(PDO::FETCH_ASSOC);
+       // echo "wowowowoww";
+       // if($stmt->rowCount() > 0){
+            if(password_verify($password1, $row['password'])){
+                // session_regenerate_id();
+                $_SESSION["id"] = $row['id'];
+                // $_SESSION["authorized"] = true;
+                $_SESSION["username-email"] = $row['username-email'];
+                $_SESSION["password"] = $row['passwd'];
+                // session_write_close();
+                // echo "wowowowoww";
+                header('location:index.php');
+                exit();
+            }else{
+                $error['login_fail'] = "Wrong infomation";
+            }
+       // }
     }
-}
 }
 
 //logout 
@@ -151,7 +155,7 @@ if (isset($_GET['logout'])) {
     $result->execute();
     $user = $result->fetch(PDO::FETCH_ASSOC);
     $_SESSION['email'] = $user['email'];
-    header('location: forgot_password.php');
+    header('location: recover_password.php');
     exit();
 }
 
