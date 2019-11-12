@@ -21,9 +21,9 @@ require_once 'checker.php';
 ?>
 </div>
 <div class = "form-container">
-<h3>Camagru<h3>
+<h3>Login<h3>
 <form action="login.php" method="post">
- <input type="text" name="username-email" value="" placeholder="username or email"><br>
+ <input type="text" name="email" value="" placeholder="email"><br>
  <input type="password" name="passwd" maxlength="15" value="" placeholder="password"><br>
 <input type="submit" name="login-btn" value="Login"><br>
 <a href="forgot_password.php">Forgot Password?</a>

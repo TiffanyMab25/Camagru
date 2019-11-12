@@ -1,4 +1,5 @@
 <?php
+require_once 'checker.php';
 ?>
 
 <!DOCTYPE html>
@@ -10,7 +11,7 @@
 </head>
 <body>
 <div class="recovery_mess">
-<p>A link has been set to reset your password</p>
+<p>A link has been send to your email  <?php echo $_SESSION['email'] ?> to reset your password</p>
 </div>
 </body>
 </html>

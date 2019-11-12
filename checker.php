@@ -13,7 +13,7 @@ function user_input($data){
 
 function sendPasswordResetLink($userMail, $token)
 {
-  mail($userMail, "Reset your Password", "Reset Password: http://localhost:8080/Camagru/reset_password.php?password-token=$token");
+  mail($userMail, "Reset your Password", "Reset Password: http://localhost:8080/Camagru/recover_password.php?password-token=$token");
 }
 //signup.php
 if(isset($_POST["signup_btn"])){
@@ -54,10 +54,10 @@ if(isset($_POST["signup_btn"])){
 $email1 = "";
 $password1 = "";
 if(isset($_POST["login-btn"])) {
-    $email1 = $_POST['username-email'];
+    $email1 = $_POST['email'];
     $password1 = $_POST['passwd'];
     if (empty($email1)) {
-        $error['UserNameError'] = "Please enter a username ";
+        $error['UserNameError'] = "Please enter an email ";
       }
       if (empty($password1)) {
         $error['PasswordError'] = "Please enter a password";
@@ -73,7 +73,7 @@ if(isset($_POST["login-btn"])) {
                 // session_regenerate_id();
                 $_SESSION["id"] = $row['id'];
                 // $_SESSION["authorized"] = true;
-                $_SESSION["username-email"] = $row['username-email'];
+                $_SESSION["email"] = $row['email'];
                 $_SESSION["password"] = $row['passwd'];
                 // session_write_close();
                 // echo "wowowowoww";
@@ -141,7 +141,7 @@ if (isset($_GET['logout'])) {
     $result = $connect->prepare($update_query);
     $result->execute();
     if($result){
-        header('location:login.php');
+        header('location:password_message.php');
         exit();
         }
     }
