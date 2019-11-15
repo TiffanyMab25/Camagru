@@ -36,6 +36,10 @@ if(isset($_POST["signup_btn"])){
    if(empty($password)){
       $error["pwderror"] = "please enter password";
    }else{
+      if(!preg_match("/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/", $password)) //regex 
+      {
+          $error["pwderror"] = "Password must at leats have an upcase, lowercase, and a number or spacial character and must be 8 charactersor more";
+      }
       $password = user_input($password);
    }
    if($password !== $Confirm_password){
@@ -44,7 +48,7 @@ if(isset($_POST["signup_btn"])){
    if(count($error) == 0){ // checks if they are any items in an array and returns an int value
         //require 'database_insert.php';
         inserttotable($connect, $_POST['username'], $_POST['email'], $_POST['passwd']);
-        header("location: index.php");
+        header("location: verification_message.php");
    }
 
 }
@@ -124,7 +128,7 @@ if (isset($_GET['logout'])) {
  
  if(isset($_POST['resetPassword-btn'])){
     $password = $_POST['passwd'];
-    $passwordConf = $_POST['con-passwd'];
+    $passwordConf = $_POST['confirmpasswd'];
  
  if(empty($password) || empty($passwordConf)){
     $error['PasswordError'] = "Please enter a password";
@@ -137,11 +141,11 @@ if (isset($_GET['logout'])) {
  $email = $_SESSION['email'];
  
  if(count($error) == 0){
-    $update_query = "UPDATE new_user SET password='$password' WHERE email='$email'";
+    $update_query = "UPDATE new_users SET password='$password' WHERE email='$email'";
     $result = $connect->prepare($update_query);
     $result->execute();
     if($result){
-        header('location:password_message.php');
+        header('location:login.php');
         exit();
         }
     }
@@ -159,7 +163,7 @@ if (isset($_GET['logout'])) {
     exit();
 }
 
-//verify token
+//verifid token
 
 function verifyUser($token)
 {

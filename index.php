@@ -5,10 +5,10 @@
         verifyUser($token);
     }
     
-    session_start();
-    if (isset($_SESSION['id'])){
+  //  session_start();
+  //  if (isset($_SESSION['id'])){
 
-    }
+  //  }
 ?>
 
 <!DOCTYPE html>
