@@ -42,6 +42,23 @@ function delete_table($table_name, $connect)
   }
 }
 
+function create_uploads($table_uploads, $connect)
+{
+
+  try{
+    $sql = "CREATE TABLE $table_upload(
+    id int(11) NOT NULL,
+    Images blob NOT NULL,
+    User_ID int(11) UNSIGNED NOT NULL
+    FOREIGN KEY (User_ID) REFERENCES new_users(id)
+  )";
+  $connect->exec($sql);
+echo "Table $table_upload created successfuly<br>";
+  }catch (PDOException $e){
+    echo  "Uploads table created successfully";
+  }
+}
+
 delete_db(DB_NAME, $connect);
 create_db(DB_NAME, $connect);
 require '../connection.php';

@@ -21,5 +21,8 @@
 </head>
 <body>
    hi  <?php //echo $_SESSION['username']?>
+   <?php if ($_SESSION['verified']):?>
+    it is verified
+  <?php endif;?>
 </body>
 </html>

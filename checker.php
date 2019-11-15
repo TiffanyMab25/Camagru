@@ -167,10 +167,11 @@ if (isset($_GET['logout'])) {
 
 function verifyUser($token)
 {
+  // require 'connection.php';
    global $connect;
-   $sql = "SELECT * FROM new_users WHERE to token='$token' LIMIT 1";
+   $sql = "SELECT * FROM new_users WHERE token='$token' LIMIT 1";
    $row = $connect->prepare($sql);
-   $row = execute();
+   $row->execute();
    $row_count = $row->fetchColumn();
    if($row_count > 0){
       $user = $row->fetch(PDO::FETCH_ASSOC);
