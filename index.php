@@ -1,4 +1,10 @@
 <?php
+    require_once 'checker.php';
+    if(isset($_GET['token'])){
+        $token = $_GET['token'];
+        verifyUser($token);
+    }
+    
     session_start();
     if (isset($_SESSION['id'])){
 

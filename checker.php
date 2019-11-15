@@ -159,4 +159,31 @@ if (isset($_GET['logout'])) {
     exit();
 }
 
+//verify token
+
+function verifyUser($token)
+{
+   global $connect;
+   $sql = "SELECT * FROM new_users WHERE to token='$token' LIMIT 1";
+   $row = $connect->prepare($sql);
+   $row = execute();
+   $row_count = $row->fetchColumn();
+   if($row_count > 0){
+      $user = $row->fetch(PDO::FETCH_ASSOC);
+      $update_query = "UPDATE new_users SET verified=1 WHERE token='$token'";
+      if($connect->exec($update_query)){
+         $_SESSION['id'] = $user['id'];
+         $_SESSION['username'] = $user['username'];
+         $_SESSION['email'] = $user['email'];
+         $_SESSION['verified'] = 1;
+         $_SESSION['message'] = "Your email adress was verified successfully";
+         unset($_SESSION['message']);
+         header('LOcation:index.php');
+         exit();
+      }
+   }else{
+         echo "The user was not found";
+      }
+
+   }
 ?>
