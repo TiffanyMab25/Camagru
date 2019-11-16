@@ -42,20 +42,20 @@ function delete_table($table_name, $connect)
   }
 }
 
-function create_uploads($table_uploads, $connect)
+function create_uploads($table_upload, $connect)
 {
 
   try{
     $sql = "CREATE TABLE $table_upload(
-    id int(11) NOT NULL,
+    id INT(11) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     Images blob NOT NULL,
-    User_ID int(11) UNSIGNED NOT NULL
+    User_ID int(11) UNSIGNED NOT NULL,
     FOREIGN KEY (User_ID) REFERENCES new_users(id)
   )";
   $connect->exec($sql);
-echo "Table $table_upload created successfuly<br>";
+  echo "Table $table_upload created successfuly<br>";
   }catch (PDOException $e){
-    echo  "Uploads table created successfully";
+    echo  "Uploads table created successfully ".$e->getMessage;
   }
 }
 
@@ -63,5 +63,6 @@ delete_db(DB_NAME, $connect);
 create_db(DB_NAME, $connect);
 require '../connection.php';
 create_table($new_users, $connect);
+create_uploads("images", $connect);
    
 ?> 

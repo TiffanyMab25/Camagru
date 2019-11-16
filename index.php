@@ -21,8 +21,7 @@
 </head>
 <body>
    hi  <?php //echo $_SESSION['username']?>
-   <?php if ($_SESSION['verified']):?>
-    it is verified
-  <?php endif;?>
+   <a href="images_form.php">Upload</a>
+
 </body>
 </html>
