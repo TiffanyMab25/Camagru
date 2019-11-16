@@ -36,10 +36,10 @@ if(isset($_POST["signup_btn"])){
    if(empty($password)){
       $error["pwderror"] = "please enter password";
    }else{
-      if(!preg_match("/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/", $password)) //regex 
-      {
-          $error["pwderror"] = "Password must at leats have an upcase, lowercase, and a number or spacial character and must be 8 charactersor more";
-      }
+      // if(!preg_match("/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/", $password)) //regex 
+      // {
+      //     $error["pwderror"] = "Password must at leats have an upcase, lowercase, and a number or spacial character and must be 8 charactersor more";
+      // }
       $password = user_input($password);
    }
    if($password !== $Confirm_password){
@@ -91,7 +91,7 @@ if(isset($_POST["login-btn"])) {
 }
 
 //logout 
-if (isset($_GET['logout'])) {
+if (isset($_GET['log'])) {
     session_destroy();
     unset($_SESSION['id']);
     unset($_SESSION['username']);

@@ -11,7 +11,7 @@ require_once 'checker.php';
 </head>
 <body>
 <div class="recovery_mess">
-<p>A link has been send to your email  <?php echo $_SESSION['email'] ?> to reset your password</p>
+<p>A link has been send to your email  <?php echo $_SESSION['email']; ?> to reset your password</p>
 </div>
 </body>
 </html>
